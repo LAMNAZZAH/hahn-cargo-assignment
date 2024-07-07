@@ -6,6 +6,8 @@ services:
     container_name: hahnsimfront_c
     ports:
       - '3000:3000'
+    environment:
+      - API_BASE_URL=http://localhost:5103
     stdin_open: true
     tty: true
     depends_on:
@@ -20,16 +22,26 @@ services:
     ports:
       - '5103:5103' #http
     depends_on:
-       - sqlserver
+      - sqlserver
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:7133;http://+:5103
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=HahnSimDB;User=sa;Password=hahn1313;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=hahndb;User=sa;Password=Medlmz@2016;TrustServerCertificate=True;
     command: ["dotnet", "watch","run", -v, "--project" , "HahnSimBack.csproj", "--urls", "http://*:5103"]
     volumes:
       - ./hahnsimback:/app
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - hahnsim-network
+
+  migration:
+    build: ./hahnsimback
+    command: ["dotnet", "ef", "database", "update"]
+    depends_on:
+      - sqlserver
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=hahndb;User=sa;Password=Medlmz@2016;TrustServerCertificate=True;
     networks:
       - hahnsim-network
 
@@ -47,6 +59,13 @@ services:
       restart: unless-stopped
       networks:
         - hahnsim-network
+      healthcheck:
+        test: ["CMD-SHELL", "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Medlmz@2016 -Q 'SELECT 1' || exit 1"]
+        interval: 10s
+        retries: 10
+        start_period: 10s
+        timeout: 3s
+  
 
 volumes:
   sqlserver-data:
