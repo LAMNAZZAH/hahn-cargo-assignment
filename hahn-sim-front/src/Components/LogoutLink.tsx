@@ -10,12 +10,8 @@ function LogoutLink(props: { children: React.ReactNode }) {
     const handleSubmit = (e: React.FormEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         fetch(`${API_BASE_URL}/api/user/logout`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: ""
-
+            method: "GET",
+            credentials: "include"
         })
             .then((data) => {
                 if (data.ok) {

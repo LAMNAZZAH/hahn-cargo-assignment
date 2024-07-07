@@ -20,20 +20,21 @@ function LoginPage() {
         navigate("/register");
     }
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email || !password) {
             setError("Please fill in all fields.");
-        } else {
-            setError("");
+            return;
+        }
 
-            let loginurl = "";
-            if (rememberme == true)
-                loginurl = `${API_BASE_URL}/login?useCookies=true`;
-            else
-                loginurl = `${API_BASE_URL}/login?useSessionCookies=true`;
+        setError("");
 
-            fetch(loginurl, {
+        let loginurl = rememberme 
+            ? `${API_BASE_URL}/login?useCookies=true`
+            : `${API_BASE_URL}/login?useSessionCookies=true`;
+
+        try {
+            const response = await fetch(loginurl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -44,22 +45,21 @@ function LoginPage() {
                     twoFactorCode: "string",
                     twoFactorRecoveryCode: "string"
                 }),
-            })
+                credentials: 'include',
+            });
 
-                .then((data) => {
-                    console.log(data);
-                    if (data.ok) {
-                        setError("Successful Login.");
-                        window.location.href = '/';
-                    }
-                    else
-                        setError("Error Logging In.");
-
-                })
-                .catch((error) => {
-                    console.error(error);
-                    setError("Error Logging in.");
-                });
+            if (response.ok) {
+                console.log("Login successful");
+                setError("Successful Login.");
+                navigate('/');
+            } else {
+                const errorData = await response.json();
+                console.error("Login failed:", errorData);
+                setError(errorData.message || "Error Logging In.");
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            setError("Error Logging in.");
         }
     };
 

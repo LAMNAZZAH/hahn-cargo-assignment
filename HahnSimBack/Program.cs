@@ -29,12 +29,11 @@ builder.Logging.AddEventSourceLogger();
 
 var app = builder.Build();
 
-app.UseCors(options =>
-{
-    options.AllowAnyOrigin()
-           .AllowAnyMethod()
-           .AllowAnyHeader();
-});
+app.UseCors(policy => policy
+    .WithOrigins("http://localhost:3000")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
 
 app.UseExceptionHandler(options => { });
 app.UseDefaultFiles();

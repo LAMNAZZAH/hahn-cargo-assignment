@@ -8,96 +8,73 @@ interface User {
     email: string
 }
 
-function AuthorizeView(props: { children: React.ReactNode }) {
+interface AuthorizeViewProps {
+    children: React.ReactNode;
+    triggerRecheck?: boolean;
+}
+
+function AuthorizeView({ children, triggerRecheck = false }: AuthorizeViewProps) {
     const [authorized, setAuthorized] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
-
-    const emptyuser: User = { email: "" };
-
-    const [user, setUser] = useState(emptyuser);
+    const [user, setUser] = useState<User>({ email: "" });
 
     useEffect(() => {
-        let retriesCount = 0;
-        const maxRetries = 10;
-        const delay: number = 1000;
+        let isMounted = true;
 
-        function wait(delay: number) {
-            return new Promise((resolve) => setTimeout(resolve, delay));
-        }
-
-        async function fetchWithRetry(url: string, options: any): Promise<Response> {
+        async function checkAuth() {
             try {
-                const response = await fetch(url, options);
+                const response = await fetch(`${API_BASE_URL}/api/user/pingauth`, {
+                    method: "GET",
+                    credentials: 'include',
+                });
 
-                if (response.status == 200) {
-                    console.log("Authorized");
-                    const j: any = await response.json();
-                    setUser({ email: j.email });
-                    setAuthorized(true);
-                    return response;
-                } else if (response.status == 401) {
-                    console.log("Unauthorized!");
-                    return response;
+                if (response.status === 200) {
+                    const data = await response.json();
+                    if (isMounted) {
+                        setUser({ email: data.email });
+                        setAuthorized(true);
+                    }
                 } else {
-                    await wait(delay);
-                    return fetchWithRetry(url, options);
+                    if (isMounted) {
+                        setAuthorized(false);
+                    }
                 }
-            } catch (err) {
-                retriesCount++;
-                if (retriesCount > maxRetries) {
-                    throw err
-                } else {
-                    await wait(delay);
-                    return fetchWithRetry(url, options);
+            } catch (error) {
+                console.error("Auth check failed:", error);
+                if (isMounted) {
+                    setAuthorized(false);
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
                 }
             }
         }
 
-        fetchWithRetry(`${API_BASE_URL}/api/user/pingauth`, {
-            method: "GET"
-        })
-        .catch(err => {
-            console.log(err.message);
-        })
-        .finally(() => {
-            setLoading(false);
-        });
+        checkAuth();
 
-    }, [])
+        return () => {
+            isMounted = false;
+        };
+    }, [triggerRecheck]);
 
     if (loading) {
+        return <p>Loading.....</p>;
+    } else if (authorized) {
         return (
-            <>
-            <p>Loading.....</p>
-            </>
-        )
+            <UserContext.Provider value={user}>{children}</UserContext.Provider>
+        );
     } else {
-        if (authorized && !loading) {
-            return (
-                <>
-                <UserContext.Provider value={user}>{props.children}</UserContext.Provider>
-                </>
-            )
-        } else {
-            return (
-                <>
-                <Navigate to="/login" />
-                </>
-            )
-        }
-    } 
-    
-    
+        return <Navigate to="/login" />;
+    }
 }
-
 
 export function AuthorizedUser(props: { value: string }) {
     const user: any = useContext(UserContext);
-    if (props.value == "email")
+    if (props.value === "email")
         return <>{user.email}</>;
     else
-        return <></>
+        return null;
 }
-
 
 export default AuthorizeView;
