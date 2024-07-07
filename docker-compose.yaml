@@ -8,6 +8,10 @@ services:
       - '3000:3000'
     environment:
       - API_BASE_URL=http://localhost:5103
+      - CHOKIDAR_USEPOLLING=true 
+    volumes:
+      - ./hahn-sim-front:/app  
+      - /app/node_modules  
     stdin_open: true
     tty: true
     depends_on:

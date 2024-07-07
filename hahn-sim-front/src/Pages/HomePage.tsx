@@ -1,12 +1,12 @@
 import AuthorizeView, { AuthorizedUser } from "../Components/AuthorizeView";
 import LogoutLink from "../Components/LogoutLink";
-import WeatherForcast from "../Components/WeatherForcast";
+import NavBar from "../Components/NavBar";
 
 function HomePage() {
   return (
       <AuthorizeView>
           <span><LogoutLink>logout <AuthorizedUser value="email" /></LogoutLink></span>
-      <WeatherForcast />
+      <NavBar />
       </AuthorizeView>
   );
 }

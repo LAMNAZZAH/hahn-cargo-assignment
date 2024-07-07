@@ -29,7 +29,7 @@ function LoginPage() {
 
         setError("");
 
-        let loginurl = rememberme 
+        let loginurl = rememberme
             ? `${API_BASE_URL}/login?useCookies=true`
             : `${API_BASE_URL}/login?useSessionCookies=true`;
 
@@ -64,49 +64,60 @@ function LoginPage() {
     };
 
     return (
-        <div className="containerbox">
-            <h3>Login</h3>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label className="forminput" htmlFor="email">Email:</label>
-                </div>
-                <div>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={email}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                </div>
-                <div>
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={password}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div>
-                    <input
-                        type="checkbox"
-                        id="rememberme"
-                        name="rememberme"
-                        checked={rememberme}
-                        onChange={handleChange} /><span>Remember Me</span>
-                </div>
-                <div>
-                    <button type="submit">Login</button>
-                </div>
-                <div>
-                    <button onClick={handleRegisterClick}>Register</button>
-                </div>
-            </form>
-            {error && <p className="error">{error}</p>}
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+                <h1 className="text-3xl font-bold text-center text-gray-800">Login</h1>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700" htmlFor="email">Email:</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={email}
+                            onChange={handleChange}
+                            className="w-full px-3 py-2 mt-1 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700" htmlFor="password">Password:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={password}
+                            onChange={handleChange}
+                            className="w-full px-3 py-2 mt-1 text-gray-700 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                    <div className="flex items-center">
+                        <input
+                            type="checkbox"
+                            id="rememberme"
+                            name="rememberme"
+                            checked={rememberme}
+                            onChange={handleChange}
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <label htmlFor="rememberme" className="ml-2 text-sm text-gray-600">Remember Me</label>
+                    </div>
+                    <div className="space-y-2">
+                        <button
+                            type="submit"
+                            className="w-full px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        >
+                            Login
+                        </button>
+                        <button
+                            onClick={handleRegisterClick}
+                            className="w-full px-4 py-2 text-blue-600 bg-transparent border border-blue-600 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        >
+                            Register
+                        </button>
+                    </div>
+                </form>
+                {error && <p className="text-sm text-center text-red-600">{error}</p>}
+            </div>
         </div>
     );
 }

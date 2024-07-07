@@ -29,11 +29,20 @@ builder.Logging.AddEventSourceLogger();
 
 var app = builder.Build();
 
-app.UseCors(policy => policy
-    .WithOrigins("http://localhost:3000")
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .AllowCredentials());
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", policy =>
+    {
+        policy.SetIsOriginAllowed(origin =>
+        {
+            var uri = new Uri(origin);
+            return uri.Host == "localhost" || uri.Host == "127.0.0.1";
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
+});
 
 app.UseExceptionHandler(options => { });
 app.UseDefaultFiles();
