@@ -1,0 +1,6 @@
+@HahnSimBack_HostAddress = http://localhost:5103
+
+GET {{HahnSimBack_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  hahnsimfront:
+    build: ./hahn-sim-front
+    container_name: hahnsimfront_c
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true
+    depends_on:
+      - hahnsimback
+    networks:
+      - hahnsim-network
+
+  
+  hahnsimback:
+    build: ./hahnsimback
+    container_name: hahnsimback_c
+    ports:
+      - '5103:5103' #http
+    depends_on:
+       - sqlserver
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:7133;http://+:5103
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=HahnSimDB;User=sa;Password=hahn1313;
+    command: ["dotnet", "watch","run", -v, "--project" , "HahnSimBack.csproj", "--urls", "http://*:5103"]
+    volumes:
+      - ./hahnsimback:/app
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    networks:
+      - hahnsim-network
+
+  sqlserver:
+      image: mcr.microsoft.com/mssql/server:2019-latest
+      container_name: sqlserver_c
+      ports: 
+        - '1433:1433'
+      environment:
+        SA_PASSWORD: "Medlmz@2016"
+        ACCEPT_EULA: "Y"
+        MSSQL_PID: "Express"
+      volumes:
+        - sqlserver-data:/var/opt/mssql
+      restart: unless-stopped
+      networks:
+        - hahnsim-network
+
+volumes:
+  sqlserver-data:
+
+networks:
+  hahnsim-network:
+    driver: bridge
