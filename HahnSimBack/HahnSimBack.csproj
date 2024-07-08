@@ -20,14 +20,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Watch Remove="Controllers\DataController.cs" />
     <Watch Remove="Controllers\UserController.cs" />
     <Watch Remove="Data\AppDbContext.cs" />
+    <Watch Remove="Dtos\CargoSimClientOptionsDto.cs" />
+    <Watch Remove="Dtos\TokenResponseDto.cs" />
     <Watch Remove="Entities\User.cs" />
     <Watch Remove="Infrastructure\ApiResponse.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
+    <Watch Remove="Interfaces\ICachingTokenService.cs" />
+    <Watch Remove="Interfaces\ICargoSimService.cs" />
+    <Watch Remove="Services\CachingTokenService.cs" />
+    <Watch Remove="Services\CargoSimService.cs" />
   </ItemGroup>
 
 </Project>

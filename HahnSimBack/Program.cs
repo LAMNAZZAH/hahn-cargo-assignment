@@ -1,6 +1,10 @@
 using HahnCargoAutomation.Server.Data;
 using HahnCargoAutomation.Server.Entities;
+using HahnSimBack.Dtos;
+using HahnSimBack.Interfaces;
+using HahnSimBack.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,10 +19,14 @@ builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<AppDbContext>();
 
+builder.Services.Configure<CargoSimClientOptionsDto>(builder.Configuration.GetSection("CargoSimClientOptions"));
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpContextAccessor();
 
 // Configure logging
 builder.Logging.ClearProviders();
@@ -27,22 +35,28 @@ builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 builder.Logging.AddEventSourceLogger();
 
+builder.Services.AddSingleton<ICachingTokenService, CachingTokenService>();
+builder.Services.AddSingleton<ICargoSimService, CargoSimService>();
+
+builder.Services.AddHttpClient<ICachingTokenService, CachingTokenService>((serviceProvider, client) =>
+{
+    var options = serviceProvider.GetRequiredService<IOptions<CargoSimClientOptionsDto>>().Value;
+    client.BaseAddress = new Uri(options.BaseUrl);
+});
+
+builder.Services.AddHttpClient<ICargoSimService, CargoSimService>((serviceProvider, client) =>
+{
+    var options = serviceProvider.GetRequiredService<IOptions<CargoSimClientOptionsDto>>().Value;
+    client.BaseAddress = new Uri(options.BaseUrl);
+});
+
 var app = builder.Build();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowLocalhost", policy =>
-    {
-        policy.SetIsOriginAllowed(origin =>
-        {
-            var uri = new Uri(origin);
-            return uri.Host == "localhost" || uri.Host == "127.0.0.1";
-        })
-        .AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowCredentials();
-    });
-});
+app.UseCors(policy => policy
+    .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost")
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .AllowCredentials());
 
 app.UseExceptionHandler(options => { });
 app.UseDefaultFiles();

@@ -10,7 +10,8 @@ services:
       - API_BASE_URL=http://localhost:5103
       - CHOKIDAR_USEPOLLING=true 
     volumes:
-      - ./hahn-sim-front:/app  
+      - ./hahn-sim-front/src:/app/src
+      - ./hahn-sim-front/public:/app/public
       - /app/node_modules  
     stdin_open: true
     tty: true

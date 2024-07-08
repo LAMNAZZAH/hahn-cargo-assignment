@@ -5,7 +5,6 @@ import NavBar from "../Components/NavBar";
 function HomePage() {
   return (
       <AuthorizeView>
-          <span><LogoutLink>logout <AuthorizedUser value="email" /></LogoutLink></span>
       <NavBar />
       </AuthorizeView>
   );
