@@ -6,11 +6,28 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HahnSimBack.Migrations
 {
     /// <inheritdoc />
-    public partial class Test1 : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "ActionLogs",
+                columns: table => new
+                {
+                    LogId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ActionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ActionDetails = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Success = table.Column<bool>(type: "bit", nullable: true),
+                    ErrorMessage = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ActionLogs", x => x.LogId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -48,6 +65,57 @@ namespace HahnSimBack.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CargoTransporters",
+                columns: table => new
+                {
+                    TransporterId = table.Column<int>(type: "int", nullable: false),
+                    Capacity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CargoTransporters", x => x.TransporterId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Connections",
+                columns: table => new
+                {
+                    ConnectionId = table.Column<int>(type: "int", nullable: false),
+                    EdgeId = table.Column<int>(type: "int", nullable: false),
+                    FirstNodeId = table.Column<int>(type: "int", nullable: false),
+                    SecondNodeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Connections", x => x.ConnectionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Edges",
+                columns: table => new
+                {
+                    EdgeId = table.Column<int>(type: "int", nullable: false),
+                    Cost = table.Column<int>(type: "int", nullable: false),
+                    Time = table.Column<TimeSpan>(type: "time", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Edges", x => x.EdgeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Nodes",
+                columns: table => new
+                {
+                    NodeId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Nodes", x => x.NodeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,6 +268,9 @@ namespace HahnSimBack.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ActionLogs");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -213,6 +284,18 @@ namespace HahnSimBack.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "CargoTransporters");
+
+            migrationBuilder.DropTable(
+                name: "Connections");
+
+            migrationBuilder.DropTable(
+                name: "Edges");
+
+            migrationBuilder.DropTable(
+                name: "Nodes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

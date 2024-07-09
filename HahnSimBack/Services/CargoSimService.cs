@@ -1,7 +1,6 @@
 ﻿using HahnSimBack.Dtos;
 using HahnSimBack.Interfaces;
 using Microsoft.Extensions.Options;
-using System.Net.Http;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -24,9 +23,16 @@ namespace HahnSimBack.Services
             return await response.Content.ReadFromJsonAsync<T>();
         }
 
-        public async Task<T> SendRequestAsync<T>(HttpMethod method, string endpoint, string token, object content = null)
+        public async Task<T> SendRequestAsync<T>(HttpMethod method, string endpoint, string token, object content = null, Dictionary<string, string> queryParams = null)
         {
-            var request = new HttpRequestMessage(method, endpoint);
+            string requestUrl = endpoint;
+            if (queryParams != null && queryParams.Count > 0)
+            {
+                var queryString = string.Join("&", queryParams.Select(p => $"{Uri.EscapeDataString(p.Key)}={Uri.EscapeDataString(p.Value)}"));
+                requestUrl += $"?{queryString}";
+            }
+
+            var request = new HttpRequestMessage(method, requestUrl);
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             if (content != null && (method == HttpMethod.Post || method == HttpMethod.Put || method == HttpMethod.Patch))

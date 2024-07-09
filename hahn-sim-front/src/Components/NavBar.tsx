@@ -3,7 +3,7 @@ import { PingAuthReq } from '../Requests/UserRequests/PingauthReq';
 import { useState } from 'react';
 import LogoutLink from './LogoutLink';
 import { AuthorizedUser } from './AuthorizeView';
-import { FetchCoinsReq } from '../Requests/UserRequests/FetchCoinsReq';
+import { FetchCoinsReq } from '../Requests/FetchCoinsReq';
 
 
 function NavBar() {
@@ -61,7 +61,7 @@ function NavBar() {
                                 </div>
                                 {isDropdownOpen && (
                                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
-                                        <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'><LogoutLink>logout <AuthorizedUser value="email" /></LogoutLink></span>
+                                        <span className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'><LogoutLink>logout</LogoutLink></span>
                                     </div>
                                 )}
                             </>

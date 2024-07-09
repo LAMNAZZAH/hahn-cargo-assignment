@@ -1,6 +1,7 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { API_BASE_URL } from '../config';
+import { PingAuthReq } from "../Requests/UserRequests/PingauthReq";
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext({});
 
@@ -18,22 +19,17 @@ function AuthorizeView({ children, triggerRecheck = false }: AuthorizeViewProps)
     const [loading, setLoading] = useState<boolean>(true);
     const [user, setUser] = useState<User>({ email: "" });
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         let isMounted = true;
 
         async function checkAuth() {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/user/pingauth`, {
-                    method: "GET",
-                    credentials: 'include',
-                });
-
-                if (response.status === 200) {
-                    const data = await response.json();
-                    if (isMounted) {
-                        setUser({ email: data.email });
-                        setAuthorized(true);
-                    }
+                const email = await PingAuthReq()
+                if (isMounted) {
+                    setUser({ email: email });
+                    setAuthorized(true);
                 } else {
                     if (isMounted) {
                         setAuthorized(false);
@@ -56,6 +52,7 @@ function AuthorizeView({ children, triggerRecheck = false }: AuthorizeViewProps)
         return () => {
             isMounted = false;
         };
+        
     }, [triggerRecheck]);
 
     if (loading) {

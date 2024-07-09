@@ -1,4 +1,4 @@
-import AxiosInstance from "../../Utils/AxiosInstance";
+import AxiosInstance from "../Utils/AxiosInstance";
 
 export const FetchCoinsReq = async () => {
     return AxiosInstance.get('/api/Coin/Get')

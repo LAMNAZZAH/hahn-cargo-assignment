@@ -16,7 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<User>()
+builder.Services.AddIdentityApiEndpoints<AppUser>()
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.Configure<CargoSimClientOptionsDto>(builder.Configuration.GetSection("CargoSimClientOptions"));
@@ -37,6 +37,8 @@ builder.Logging.AddEventSourceLogger();
 
 builder.Services.AddSingleton<ICachingTokenService, CachingTokenService>();
 builder.Services.AddSingleton<ICargoSimService, CargoSimService>();
+builder.Services.AddScoped<IGridService, GridService>();
+builder.Services.AddScoped<ICargoTransporterService, CargoTransporterService>();
 
 builder.Services.AddHttpClient<ICachingTokenService, CachingTokenService>((serviceProvider, client) =>
 {
@@ -68,7 +70,7 @@ app.UseCors(policy => policy
 app.UseExceptionHandler(options => { });
 app.UseDefaultFiles();
 app.UseStaticFiles();
-app.MapIdentityApi<User>();
+app.MapIdentityApi<AppUser>();
 
 if (app.Environment.IsDevelopment())
 {

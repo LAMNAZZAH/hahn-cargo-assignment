@@ -15,7 +15,8 @@ namespace HahnSimBack.Controllers
         [HttpGet("Get")]
         public Task<IActionResult> GetCoins()
         {
-            return ExecuteAuthenticatedRequestAsync(token => cargoSimService.GetDataAsync<int>("/User/CoinAmount", token));
+            return ExecuteAuthenticatedRequestAsync(token => 
+            cargoSimService.SendRequestAsync<int>(HttpMethod.Get, "/User/CoinAmount", token));
         }
     }
 }

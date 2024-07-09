@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
@@ -23,17 +24,31 @@
     <Watch Remove="Controllers\BaseApiController.cs" />
     <Watch Remove="Controllers\CargoTransporterController.cs" />
     <Watch Remove="Controllers\CoinController.cs" />
+    <Watch Remove="Controllers\GridController.cs" />
     <Watch Remove="Controllers\UserController.cs" />
     <Watch Remove="Data\AppDbContext.cs" />
+    <Watch Remove="Dtos\BuyOrderReqDto.cs" />
     <Watch Remove="Dtos\CacheTokenInfoDto.cs" />
     <Watch Remove="Dtos\CargoSimClientOptionsDto.cs" />
+    <Watch Remove="Dtos\CargoTransporterDto.cs" />
+    <Watch Remove="Dtos\GridDataResDto.cs" />
+    <Watch Remove="Dtos\OrderDto.cs" />
     <Watch Remove="Dtos\TokenResponseDto.cs" />
-    <Watch Remove="Entities\User.cs" />
+    <Watch Remove="Entities\ActionLog.cs" />
+    <Watch Remove="Entities\AppUser.cs" />
+    <Watch Remove="Entities\CargoTransporter.cs" />
+    <Watch Remove="Entities\Connection.cs" />
+    <Watch Remove="Entities\Edge.cs" />
+    <Watch Remove="Entities\Node.cs" />
     <Watch Remove="Infrastructure\ApiResponse.cs" />
     <Watch Remove="Interfaces\ICachingTokenService.cs" />
     <Watch Remove="Interfaces\ICargoSimService.cs" />
+    <Watch Remove="Interfaces\ICargoTransporterService.cs" />
+    <Watch Remove="Interfaces\IGridService.cs" />
     <Watch Remove="Services\CachingTokenService.cs" />
     <Watch Remove="Services\CargoSimService.cs" />
+    <Watch Remove="Services\CargoTransporterService.cs" />
+    <Watch Remove="Services\GridService.cs" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from '../config';
+import { LogoutReq } from "../Requests/UserRequests/LogoutReq";
 
 function LogoutLink(props: { children: React.ReactNode }) {
 
@@ -9,22 +9,13 @@ function LogoutLink(props: { children: React.ReactNode }) {
 
     const handleSubmit = (e: React.FormEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        fetch(`${API_BASE_URL}/api/user/logout`, {
-            method: "GET",
-            credentials: "include"
+        LogoutReq().then(data => {
+            if (data?.success === true) {
+                navigate("/login");
+            }
+        }).catch(err => {
+            console.log(err)
         })
-            .then((data) => {
-                if (data.ok) {
-                    navigate("/login");
-                }
-                else { }
-
-
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-
     };
 
     return (

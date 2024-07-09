@@ -22,7 +22,7 @@ namespace HahnSimBack.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HahnCargoAutomation.Server.Entities.User", b =>
+            modelBuilder.Entity("HahnCargoAutomation.Server.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -85,6 +85,98 @@ namespace HahnSimBack.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("HahnSimBack.Entities.ActionLog", b =>
+                {
+                    b.Property<int>("LogId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LogId"));
+
+                    b.Property<string>("ActionDetails")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ActionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ErrorMessage")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool?>("Success")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("LogId");
+
+                    b.ToTable("ActionLogs");
+                });
+
+            modelBuilder.Entity("HahnSimBack.Entities.CargoTransporter", b =>
+                {
+                    b.Property<int>("TransporterId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.HasKey("TransporterId");
+
+                    b.ToTable("CargoTransporters");
+                });
+
+            modelBuilder.Entity("HahnSimBack.Entities.Connection", b =>
+                {
+                    b.Property<int>("ConnectionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EdgeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FirstNodeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SecondNodeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ConnectionId");
+
+                    b.ToTable("Connections");
+                });
+
+            modelBuilder.Entity("HahnSimBack.Entities.Edge", b =>
+                {
+                    b.Property<int>("EdgeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Cost")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("Time")
+                        .HasColumnType("time");
+
+                    b.HasKey("EdgeId");
+
+                    b.ToTable("Edges");
+                });
+
+            modelBuilder.Entity("HahnSimBack.Entities.Node", b =>
+                {
+                    b.Property<int>("NodeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NodeId");
+
+                    b.ToTable("Nodes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -231,7 +323,7 @@ namespace HahnSimBack.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("HahnCargoAutomation.Server.Entities.User", null)
+                    b.HasOne("HahnCargoAutomation.Server.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -240,7 +332,7 @@ namespace HahnSimBack.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("HahnCargoAutomation.Server.Entities.User", null)
+                    b.HasOne("HahnCargoAutomation.Server.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -255,7 +347,7 @@ namespace HahnSimBack.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HahnCargoAutomation.Server.Entities.User", null)
+                    b.HasOne("HahnCargoAutomation.Server.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -264,7 +356,7 @@ namespace HahnSimBack.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("HahnCargoAutomation.Server.Entities.User", null)
+                    b.HasOne("HahnCargoAutomation.Server.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

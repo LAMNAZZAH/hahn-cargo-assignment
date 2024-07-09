@@ -17,20 +17,17 @@ namespace HahnCargoAutomation.Server.Controllers
 
         [Authorize]
         [HttpGet("logout")]
-        public async Task<IActionResult> Logout(SignInManager<User> signInManager)
+        public async Task<IActionResult> Logout(SignInManager<AppUser> signInManager)
         {
             try
             {
-                logger.LogInformation("User {UserId} attempting to log out", User.FindFirstValue(ClaimTypes.NameIdentifier));
                 await signInManager.SignOutAsync();
                 var response = ApiResponse<string>.SuccessResponse("", "logged out successfully");
-                logger.LogInformation("User {UserId} logged out successfully", User.FindFirstValue(ClaimTypes.NameIdentifier));
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error occurred while logging out user {UserId}", User.FindFirstValue(ClaimTypes.NameIdentifier));
-                throw;
+                return StatusCode(500, ApiResponse<object>.ErrorResponse("An error occurred while processing your request", HttpStatusCode.InternalServerError, new List<string> { ex.Message }));
             }
         }
 
@@ -53,8 +50,7 @@ namespace HahnCargoAutomation.Server.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error occurred in PingAuth");
-                throw;
+                return StatusCode(500, ApiResponse<object>.ErrorResponse("An error occurred while processing your request", HttpStatusCode.InternalServerError, new List<string> { ex.Message }));
             }
         }
     }
