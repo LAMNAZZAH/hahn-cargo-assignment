@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 namespace ComplimentGeneratorAPI.Controllers
 {
-  [ApiController]
   [Route("api/[controller]")]
+  [ApiController]
   public class ComplimentController : ControllerBase
   {
     private static readonly string[] Compliments = new[]
@@ -10,7 +10,7 @@ namespace ComplimentGeneratorAPI.Controllers
       "You'r!",
           };
 
-  [HttpGet]
+  [HttpGet("random")]
   public ActionResult<string> GetRandomCompliment()
   {
     Random random = new Random();

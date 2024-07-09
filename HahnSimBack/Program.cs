@@ -42,12 +42,19 @@ builder.Services.AddHttpClient<ICachingTokenService, CachingTokenService>((servi
 {
     var options = serviceProvider.GetRequiredService<IOptions<CargoSimClientOptionsDto>>().Value;
     client.BaseAddress = new Uri(options.BaseUrl);
+}).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
 });
 
 builder.Services.AddHttpClient<ICargoSimService, CargoSimService>((serviceProvider, client) =>
 {
     var options = serviceProvider.GetRequiredService<IOptions<CargoSimClientOptionsDto>>().Value;
     client.BaseAddress = new Uri(options.BaseUrl);
+
+}).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
 });
 
 var app = builder.Build();

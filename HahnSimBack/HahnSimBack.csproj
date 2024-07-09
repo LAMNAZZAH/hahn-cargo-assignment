@@ -20,9 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Watch Remove="Controllers\DataController.cs" />
+    <Watch Remove="Controllers\BaseApiController.cs" />
+    <Watch Remove="Controllers\CargoTransporterController.cs" />
+    <Watch Remove="Controllers\CoinController.cs" />
     <Watch Remove="Controllers\UserController.cs" />
     <Watch Remove="Data\AppDbContext.cs" />
+    <Watch Remove="Dtos\CacheTokenInfoDto.cs" />
     <Watch Remove="Dtos\CargoSimClientOptionsDto.cs" />
     <Watch Remove="Dtos\TokenResponseDto.cs" />
     <Watch Remove="Entities\User.cs" />

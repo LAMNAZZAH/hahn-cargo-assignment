@@ -15,7 +15,6 @@ namespace HahnCargoAutomation.Server.Controllers
         private readonly ILogger<UserController> logger = logger;
 
 
-
         [Authorize]
         [HttpGet("logout")]
         public async Task<IActionResult> Logout(SignInManager<User> signInManager)

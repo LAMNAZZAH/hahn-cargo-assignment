@@ -4,6 +4,6 @@
     {
         public Task<string> GetTokenAsync(string username, string password);
         public Task<string> FetchTokenAsync(string email, string password);
-        public void InvalidateToken();
+        public void InvalidateToken(string username);
     }
 }

@@ -6,18 +6,28 @@ using System.Security.Claims;
 
 namespace HahnSimBack.Services
 {
-    public class CachingTokenService(IMemoryCache cache, ICargoSimService cargoSimService, HttpClient httpClient) : ICachingTokenService
+    public class CachingTokenService(IMemoryCache cache, ICargoSimService cargoSimService, HttpClient httpClient,
+        IHttpContextAccessor httpContextAccessor) : ICachingTokenService
     {
         private readonly HttpClient httpClient = httpClient;
         private readonly IMemoryCache cache = cache;
-        private readonly ICargoSimService cargoSimService = cargoSimService;
-        private const string TokenCacheKey = "CargoSimAuthToken";
+        private readonly IHttpContextAccessor httpContextAccessor = httpContextAccessor;
+        private const string TokenCacheKeyPrefix = "CargoSimAuthToken_";
 
         public async Task<string> GetTokenAsync(string username, string password)
         {
-            if (cache.TryGetValue(TokenCacheKey, out string cachedToken))
+            var TokenCacheKey = TokenCacheKeyPrefix + username;
+
+            if (cache.TryGetValue(TokenCacheKey, out CacheTokenInfoDto CacheTokenInfo))
             {
-                return cachedToken;
+                if (IsAuthenticatedUserValid(username) && CacheTokenInfo!.Token != string.Empty)
+                {
+                    return CacheTokenInfo.Token;
+                }
+                else
+                {
+                    InvalidateToken(username);
+                }
             }
 
             var token = await FetchTokenAsync(username, "Hahn");
@@ -25,7 +35,7 @@ namespace HahnSimBack.Services
                 .SetAbsoluteExpiration(TimeSpan.FromDays(7))
                 .SetPriority(CacheItemPriority.High);
 
-            cache.Set(TokenCacheKey, token, cacheEntryOptions);
+            cache.Set(TokenCacheKey, new CacheTokenInfoDto { Token = token, Username = username }, cacheEntryOptions);
 
             return token;
         }
@@ -38,9 +48,16 @@ namespace HahnSimBack.Services
             return result.token;
         }
 
-        public void InvalidateToken()
+        public void InvalidateToken(string username)
         {
+            var TokenCacheKey = TokenCacheKeyPrefix + username;
             cache.Remove(TokenCacheKey);
+        }
+
+        private bool IsAuthenticatedUserValid(string username)
+        {
+            var authenticatedUserName = httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.Email);
+            return authenticatedUserName == username;
         }
     }
 }

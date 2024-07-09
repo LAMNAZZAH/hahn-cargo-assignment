@@ -3,28 +3,32 @@ import { PingAuthReq } from '../Requests/UserRequests/PingauthReq';
 import { useState } from 'react';
 import LogoutLink from './LogoutLink';
 import { AuthorizedUser } from './AuthorizeView';
+import { FetchCoinsReq } from '../Requests/UserRequests/FetchCoinsReq';
+
 
 function NavBar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [coinsCount, setCoinsCount] = useState<number>(1000)
 
     const { data: userEmail, isLoading: isUserEmailLoading, error: userEmailError } = useQuery<string, Error>({
         queryKey: ['userEmail'],
         queryFn: async () => {
             const email = await PingAuthReq();
             return email || "test@test.com";
-        }
+        },
+        refetchInterval: 10000
     });
 
-    /* Assume we have a query for coins count
-    const { data: coinsCount = 0 } = useQuery<number, Error>({
-        queryKey: ['coinsCount'],
-        queryFn: () => # fetch coins count 
+    const { data: coinsCount, isLoading: isCoinsLoading, error: coinsError } = useQuery<number, Error>({
+        queryKey: ['coinsCount', 'userEmail'],
+        queryFn: async () => {
+            const coins = await FetchCoinsReq();
+            return coins || 0
+        },
+        refetchInterval: 2000
     });
-    */
 
     return (
-        <nav className="bg-gray-100 p-4 shadow-md">
+        <nav className="bg-gray-100 p-4 shadow-md w-screen">
             <div className="container mx-auto flex justify-between items-center">
                 <div className="text-gray-800 text-2xl font-bold">
                     hahnCargoSimulation
@@ -32,7 +36,13 @@ function NavBar() {
                 <div className="flex items-center space-x-4">
                     <div className="flex flex-col items-end mr-2">
                         <span className="text-gray-800">{userEmail}</span>
-                        <span className="text-sm text-gray-600">{coinsCount} coins</span>
+                        {isCoinsLoading ? (
+                            <span className="text-sm text-orange-500">Loading...</span>
+                        ) : coinsError ? (
+                            <span className="text-sm text-red-500">{coinsError.message}</span>
+                        ) : (
+                            <div className='flex justify-end items-center h-full w-full'><span className="text-md text-orange-500">{coinsCount}</span><img className='h-8 mx-3' src={`${process.env.PUBLIC_URL}/icons/coinsIcon.svg`} /></div>
+                        )}
                     </div>
                     <div className="relative">
                         {isUserEmailLoading ? (
@@ -42,9 +52,9 @@ function NavBar() {
                         ) : (
                             <>
                                 <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                                    <img 
-                                        src="https://via.placeholder.com/40" 
-                                        alt="User" 
+                                    <img
+                                        src="https://via.placeholder.com/40"
+                                        alt="User"
                                         className="w-10 h-10 rounded-full"
                                     />
                                     <svg className="w-4 h-4 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
