@@ -17,19 +17,47 @@ function HomePage() {
             </div>
             <div id="history-section" className="bg-slate-200 m-2 h-full w-full">
               <div className="flex justify-center items-center bg-slate-400 h-1/5 rounded-sm font-bold text-white">Live Actions History</div>
+              <div className="bg-slate-3  00 h-36 overflow-auto gray-scrollbar">
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+              </div>
             </div>
           </div>
           <div id="second-block" className="flex justify-start items-center bg-neutral-100 w-screen h-full rounded-md m-1">
             <div id="my-transporters-section" className="bg-slate-200 h-full w-1/4 m-2">
               <div className="flex justify-center items-center bg-slate-400 h-1/6 rounded-sm font-bold text-white">My Transporters</div>
+              <div className="bg-slate-3  00 h-36 overflow-auto gray-scrollbar">
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+              </div>
             </div>
             <div id="available-orders-section" className="bg-slate-200 m-2 h-full w-full">
               <div className="flex justify-center items-center bg-slate-400 h-1/6 rounded-sm font-bold text-white">Available Orders</div>
+              <div className="bg-slate-3  00 h-36 overflow-auto gray-scrollbar">
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+              </div>
             </div>
           </div>
           <div id="second-block" className="flex justify-start items-center bg-neutral-100 w-screen h-full rounded-md m-1">
             <div id="available-orders-section" className="bg-slate-200 m-2 h-full w-full">
               <div className="flex justify-center items-center bg-slate-400 h-1/6 rounded-sm font-bold text-white">Accepted Orders</div>
+              <div className="bg-slate-3  00 h-36 overflow-auto gray-scrollbar">
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+                <div className="flex items-center justify-center font-bold bg-slate-100 mt-1 p-2">test</div>
+              </div>
             </div>
           </div>
         </div>

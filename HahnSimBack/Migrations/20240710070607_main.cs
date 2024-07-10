@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HahnSimBack.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class main : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,7 +72,9 @@ namespace HahnSimBack.Migrations
                 columns: table => new
                 {
                     TransporterId = table.Column<int>(type: "int", nullable: false),
-                    Capacity = table.Column<int>(type: "int", nullable: false)
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PathCost = table.Column<int>(type: "int", nullable: false),
+                    PathTime = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,39 +85,39 @@ namespace HahnSimBack.Migrations
                 name: "Connections",
                 columns: table => new
                 {
-                    ConnectionId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     EdgeId = table.Column<int>(type: "int", nullable: false),
                     FirstNodeId = table.Column<int>(type: "int", nullable: false),
                     SecondNodeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Connections", x => x.ConnectionId);
+                    table.PrimaryKey("PK_Connections", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Edges",
                 columns: table => new
                 {
-                    EdgeId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Cost = table.Column<int>(type: "int", nullable: false),
                     Time = table.Column<TimeSpan>(type: "time", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Edges", x => x.EdgeId);
+                    table.PrimaryKey("PK_Edges", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Nodes",
                 columns: table => new
                 {
-                    NodeId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Nodes", x => x.NodeId);
+                    table.PrimaryKey("PK_Nodes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(

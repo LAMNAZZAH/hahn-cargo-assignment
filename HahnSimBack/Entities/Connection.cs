@@ -5,8 +5,7 @@ namespace HahnSimBack.Entities
 {
     public class Connection
     {
-        [Key]
-        public int ConnectionId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public int EdgeId { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace HahnSimBack.Dtos
+﻿using System.Text.Json.Serialization;
+
+namespace HahnSimBack.Dtos
 {
     public class OrderDto
     {
@@ -7,7 +9,11 @@
         public int TargetNodeId { get; set; }
         public int Load { get; set; }
         public int Value { get; set; }
+
+        [JsonConverter(typeof(CustomDateTimeConverter))]
         public DateTime DeliveryDateUtc { get; set; }
+
+        [JsonConverter(typeof(CustomDateTimeConverter))]
         public DateTime ExpirationDateUtc { get; set; }
     }
 }

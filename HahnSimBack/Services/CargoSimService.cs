@@ -1,6 +1,7 @@
 ﻿using HahnSimBack.Dtos;
 using HahnSimBack.Interfaces;
 using Microsoft.Extensions.Options;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -48,6 +49,14 @@ namespace HahnSimBack.Services
             }
 
             response.EnsureSuccessStatusCode();
+            if (content != null)
+            {
+                var propertyInfo = content.GetType().GetProperty("ExpectedResponseBody");
+                if (propertyInfo != null )
+                {
+                    return default;
+                }
+            }
             return await response.Content.ReadFromJsonAsync<T>();
         }
     }

@@ -4,8 +4,7 @@ namespace HahnSimBack.Entities
 {
     public class Edge
     {
-        [Key]
-        public int EdgeId { get; set; }
+        public int Id { get; set; }
         [Required]
         public int Cost { get; set; }
         [Required]

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HahnSimBack.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240709151234_first")]
-    partial class first
+    [Migration("20240710070607_main")]
+    partial class main
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -125,8 +125,16 @@ namespace HahnSimBack.Migrations
                     b.Property<int>("TransporterId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Capacity")
+                    b.Property<int>("PathCost")
                         .HasColumnType("int");
+
+                    b.Property<string>("PathString")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Path");
+
+                    b.Property<TimeSpan>("PathTime")
+                        .HasColumnType("time");
 
                     b.HasKey("TransporterId");
 
@@ -135,7 +143,7 @@ namespace HahnSimBack.Migrations
 
             modelBuilder.Entity("HahnSimBack.Entities.Connection", b =>
                 {
-                    b.Property<int>("ConnectionId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<int>("EdgeId")
@@ -147,14 +155,14 @@ namespace HahnSimBack.Migrations
                     b.Property<int>("SecondNodeId")
                         .HasColumnType("int");
 
-                    b.HasKey("ConnectionId");
+                    b.HasKey("Id");
 
                     b.ToTable("Connections");
                 });
 
             modelBuilder.Entity("HahnSimBack.Entities.Edge", b =>
                 {
-                    b.Property<int>("EdgeId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<int>("Cost")
@@ -163,21 +171,21 @@ namespace HahnSimBack.Migrations
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
 
-                    b.HasKey("EdgeId");
+                    b.HasKey("Id");
 
                     b.ToTable("Edges");
                 });
 
             modelBuilder.Entity("HahnSimBack.Entities.Node", b =>
                 {
-                    b.Property<int>("NodeId")
+                    b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("NodeId");
+                    b.HasKey("Id");
 
                     b.ToTable("Nodes");
                 });

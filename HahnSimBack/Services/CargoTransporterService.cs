@@ -17,7 +17,6 @@ public class CargoTransporterService : ICargoTransporterService
         var cargoTransporter = new CargoTransporter
         {
             TransporterId = cargoTransporterId,
-            Capacity = 0,
         };
 
         _context.CargoTransporters.Add(cargoTransporter);

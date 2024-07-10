@@ -13,15 +13,23 @@ public class GridService : IGridService
 
     public async Task SaveGridDataAsync(GridDataResDto gridData)
     {
-        _context.Nodes.RemoveRange(_context.Nodes);
-        _context.Edges.RemoveRange(_context.Edges);
-        _context.Connections.RemoveRange(_context.Connections);
+        try
+        {
+            _context.ChangeTracker.Clear();
 
+            _context.Nodes.AddRange(gridData.Nodes);
 
-        await _context.Nodes.AddRangeAsync(gridData.Nodes);
-        await _context.Edges.AddRangeAsync(gridData.Edges);
-        await _context.Connections.AddRangeAsync(gridData.Connections);
+            _context.Edges.AddRange(gridData.Edges);
 
-        await _context.SaveChangesAsync();
+            _context.Connections.AddRange(gridData.Connections);
+
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in SaveGridDataAsync: {ex.Message}");
+            Console.WriteLine($"Stack trace: {ex.StackTrace}");
+            throw;
+        }
     }
 }

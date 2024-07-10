@@ -36,28 +36,30 @@ namespace HahnCargoAutomation.Server.Data
             {
                 entity.HasKey(e => e.TransporterId);
                 entity.Property(e => e.TransporterId).ValueGeneratedNever();
-                entity.Property(e => e.Capacity).IsRequired();
+                entity.Property(e => e.PathString).HasColumnName("Path");
+                entity.Property(e => e.PathCost);
+                entity.Property(e => e.PathTime);
             });
 
             builder.Entity<Node>(entity =>
             {
-                entity.HasKey(e => e.NodeId);
-                entity.Property(e => e.NodeId).ValueGeneratedNever();
+                entity.Property(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever();
                 entity.Property(e => e.Name).IsRequired();
             });
 
             builder.Entity<Edge>(entity =>
             {
-                entity.HasKey(e => e.EdgeId);
-                entity.Property(e => e.EdgeId).ValueGeneratedNever();
+                entity.Property(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever();
                 entity.Property(e => e.Cost).IsRequired();
                 entity.Property(e => e.Time).IsRequired();
             });
 
             builder.Entity<Connection>(entity =>
             {
-                entity.HasKey(e => e.ConnectionId);
-                entity.Property(e => e.ConnectionId).ValueGeneratedNever();
+                entity.Property(e => e.Id);
+                entity.Property(e => e.Id).ValueGeneratedNever();
                 entity.Property(e => e.EdgeId);
                 entity.Property(e => e.FirstNodeId).IsRequired();
                 entity.Property(e => e.SecondNodeId).IsRequired();

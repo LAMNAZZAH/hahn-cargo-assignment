@@ -25,6 +25,9 @@
     <Watch Remove="Controllers\CargoTransporterController.cs" />
     <Watch Remove="Controllers\CoinController.cs" />
     <Watch Remove="Controllers\GridController.cs" />
+    <Watch Remove="Controllers\OrderController.cs" />
+    <Watch Remove="Controllers\PathOptimizationController.cs" />
+    <Watch Remove="Controllers\SimulationController.cs" />
     <Watch Remove="Controllers\UserController.cs" />
     <Watch Remove="Data\AppDbContext.cs" />
     <Watch Remove="Dtos\BuyOrderReqDto.cs" />
@@ -33,6 +36,7 @@
     <Watch Remove="Dtos\CargoTransporterDto.cs" />
     <Watch Remove="Dtos\GridDataResDto.cs" />
     <Watch Remove="Dtos\OrderDto.cs" />
+    <Watch Remove="Dtos\PathResultDto.cs" />
     <Watch Remove="Dtos\TokenResponseDto.cs" />
     <Watch Remove="Entities\ActionLog.cs" />
     <Watch Remove="Entities\AppUser.cs" />
@@ -45,10 +49,13 @@
     <Watch Remove="Interfaces\ICargoSimService.cs" />
     <Watch Remove="Interfaces\ICargoTransporterService.cs" />
     <Watch Remove="Interfaces\IGridService.cs" />
+    <Watch Remove="Interfaces\IOrderService.cs" />
     <Watch Remove="Services\CachingTokenService.cs" />
     <Watch Remove="Services\CargoSimService.cs" />
     <Watch Remove="Services\CargoTransporterService.cs" />
     <Watch Remove="Services\GridService.cs" />
+    <Watch Remove="Services\OrderService.cs" />
+    <Watch Remove="utils\CustomDateTimeConverter.cs" />
   </ItemGroup>
 
 </Project>

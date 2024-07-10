@@ -4,8 +4,7 @@ namespace HahnSimBack.Entities
 {
     public class Node
     {
-        [Key]
-        public int NodeId { get; set; }
+        public int Id { get; set; }
         [Required]
         public string Name {  get; set; }
     }

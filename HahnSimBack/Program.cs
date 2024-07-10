@@ -39,6 +39,7 @@ builder.Services.AddSingleton<ICachingTokenService, CachingTokenService>();
 builder.Services.AddSingleton<ICargoSimService, CargoSimService>();
 builder.Services.AddScoped<IGridService, GridService>();
 builder.Services.AddScoped<ICargoTransporterService, CargoTransporterService>();
+//builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddHttpClient<ICachingTokenService, CachingTokenService>((serviceProvider, client) =>
 {

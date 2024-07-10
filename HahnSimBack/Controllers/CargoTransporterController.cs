@@ -59,6 +59,19 @@ namespace HahnSimBack.Controllers
             }
         }
 
+        [HttpPut("Move")]
+        public async Task<IActionResult> MoveTransporter([FromQuery] int transporterId, [FromQuery] int targetNodeId)
+        {
+            var queryParams = new Dictionary<string, string>
+            {
+                { "transporterId", transporterId.ToString() },
+                { "targetNodeId", targetNodeId.ToString() }
+            };
+
+            return await ExecuteAuthenticatedRequestAsync(token =>
+            cargoSimService.SendRequestAsync<object>(HttpMethod.Put, "/CargoTransporter/Move", token, new { ExpectedResponseBody = false }, queryParams));
+        }
+
         [HttpPost("Buy")]
         public async Task<IActionResult> BuyCargoTransporter([FromBody] BuyOrderReqDto buyOrderReqDto)
         {
