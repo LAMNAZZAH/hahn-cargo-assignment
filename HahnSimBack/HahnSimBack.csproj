@@ -16,6 +16,8 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 	</PackageReference>
 	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6" />
+	<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	<PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 	 <Watch Include="**\*.cs" Exclude="obj\**\*;bin\**\*" />
   </ItemGroup>
@@ -54,7 +56,9 @@
     <Watch Remove="Services\CargoSimService.cs" />
     <Watch Remove="Services\CargoTransporterService.cs" />
     <Watch Remove="Services\GridService.cs" />
+    <Watch Remove="Services\OptimizationBackgroundService.cs" />
     <Watch Remove="Services\OrderService.cs" />
+    <Watch Remove="Services\PathOptimizationService.cs" />
     <Watch Remove="utils\CustomDateTimeConverter.cs" />
   </ItemGroup>
 

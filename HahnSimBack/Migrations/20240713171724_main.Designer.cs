@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HahnSimBack.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240710070607_main")]
+    [Migration("20240713171724_main")]
     partial class main
     {
         /// <inheritdoc />
